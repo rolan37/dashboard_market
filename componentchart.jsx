@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
-const ChartComponent = () => {
+const SalesData = () => {
     const chartRef = useRef(null);
 
     useEffect(() => {
@@ -51,4 +51,4 @@ const ChartComponent = () => {
     return <canvas ref={chartRef} />;
 };
 
-export default ChartComponent;
+export default SalesData;
