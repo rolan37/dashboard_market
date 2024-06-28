@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Firebase Example</title>
+    <title>Send Data to Firebase</title>
+    <!-- Firebase App (the core Firebase SDK) -->
     <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js"></script>
+    <!-- Firebase Realtime Database SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-database.js"></script>
 </head>
 <body>
@@ -25,26 +27,28 @@
         };
 
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database(app);
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-        // Reference to the database
+        // Reference to the database path where you want to store data
         const dbRef = database.ref('data');
 
-        // Form submission
+        // Form submission event listener
         document.getElementById('dataForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const data = document.getElementById('dataInput').value;
+            event.preventDefault(); // Prevent form from submitting the default way
+            const data = document.getElementById('dataInput').value; // Get input value
 
             // Send data to Firebase
-            dbRef.push().set(data)
-                .then(() => {
-                    alert('Data sent successfully!');
-                    document.getElementById('dataInput').value = '';
-                })
-                .catch((error) => {
-                    console.error('Error sending data: ', error);
-                });
+            dbRef.push().set({
+                value: data
+            })
+            .then(() => {
+                alert('Data sent successfully!');
+                document.getElementById('dataInput').value = ''; // Clear input field
+            })
+            .catch((error) => {
+                console.error('Error sending data: ', error);
+            });
         });
     </script>
 </body>
