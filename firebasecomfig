@@ -42,4 +42,10 @@
                     alert('Data sent successfully!');
                     document.getElementById('dataInput').value = '';
                 })
-                .catch((error
+                .catch((error) => {
+                    console.error('Error sending data: ', error);
+                });
+        });
+    </script>
+</body>
+</html>
