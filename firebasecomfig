@@ -2,51 +2,55 @@
 <html>
 <head>
     <title>Send Data to Firebase</title>
-    <!-- Firebase App (the core Firebase SDK) -->
-    <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js"></script>
-    <!-- Firebase Realtime Database SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-database.js"></script>
+    <!-- Add Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
 </head>
 <body>
     <h1>Send Data to Firebase</h1>
     <form id="dataForm">
-        <input type="text" id="dataInput" placeholder="Enter data" required>
-        <button type="submit">Send</button>
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <button type="submit">Submit</button>
     </form>
 
-    <script>
-        // Your web app's Firebase configuration
+    <script type="module">
+        // Import the functions you need from the SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+        // Your Firebase configuration object
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
+            apiKey: "AIzaSyA5VVitBS3_cU_YYRE8UX7UodnPkoiFw24",
+            authDomain: "realtime-data-esp32.firebaseapp.com",
+            databaseURL: "https://realtime-data-esp32-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "realtime-data-esp32",
+            storageBucket: "realtime-data-esp32.appspot.com",
+            messagingSenderId: "978789380433",
+            appId: "1:978789380433:web:0f8b58d4878fa93009e370"
+};
 
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
 
-        // Reference to the database path where you want to store data
-        const dbRef = database.ref('data');
+        // Form submission handler
+        document.getElementById('dataForm').addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        // Form submission event listener
-        document.getElementById('dataForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form from submitting the default way
-            const data = document.getElementById('dataInput').value; // Get input value
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
 
-            // Send data to Firebase
-            dbRef.push().set({
-                value: data
-            })
-            .then(() => {
-                alert('Data sent successfully!');
-                document.getElementById('dataInput').value = ''; // Clear input field
-            })
-            .catch((error) => {
+            // Reference to the database
+            const dbRef = ref(database, 'users');
+
+            // Push data to Firebase
+            push(dbRef, {
+                name: name,
+                email: email
+            }).then(() => {
+                alert('Data sent to Firebase!');
+            }).catch((error) => {
                 console.error('Error sending data: ', error);
             });
         });
