@@ -21,14 +21,14 @@
 
         // Your Firebase configuration object
         const firebaseConfig = {
-            apiKey: "AIzaSyA5VVitBS3_cU_YYRE8UX7UodnPkoiFw24",
-            authDomain: "realtime-data-esp32.firebaseapp.com",
-            databaseURL: "https://realtime-data-esp32-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "realtime-data-esp32",
-            storageBucket: "realtime-data-esp32.appspot.com",
-            messagingSenderId: "978789380433",
-            appId: "1:978789380433:web:0f8b58d4878fa93009e370"
-};
+            apiKey: "AIzaSyCD716JRC8NOolRGm8FDdz67y34-d3s6LI",
+            authDomain: "chat-application-f15e9.firebaseapp.com",
+            databaseURL: "https://chat-application-f15e9-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "chat-application-f15e9",
+            storageBucket: "chat-application-f15e9.appspot.com",
+            messagingSenderId: "1013752644633",
+            appId: "1:1013752644633:web:743a4cf5f8e5f6656f5688"
+            };
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
