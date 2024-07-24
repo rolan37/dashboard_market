@@ -1,0 +1,18 @@
+const express = require('express')
+const mongoose = require('mongoose')
+const cors = require('cors')
+
+const app = express()
+app.use(cors())
+app.use(express.json())
+const port = 8080
+
+mongoose.connect("mongodb+srv://rolan37:tsNW695tFVEVgDTn@cluster0.6its1rk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
