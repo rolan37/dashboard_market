@@ -1,0 +1,93 @@
+const axios = require('axios');
+const nodemailer = require('nodemailer');
+
+// YouTube Data API key
+const API_KEY = 'YOUR_YOUTUBE_API_KEY';
+
+// List of channel IDs to monitor
+const CHANNEL_IDS = [
+    'UC_x5XG1OV2P6uZZ5FSM9Ttw',  // Google Developers
+    'UC29ju8bIPH5as8OGnQzwJyA',  // freeCodeCamp
+    'UCW5YeuERMmlnqo4oq8vwUpg',  // Traversy Media
+    // Add more channel IDs as needed
+];
+
+// Email settings
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'your_email@gmail.com',
+        pass: 'your_email_password'
+    }
+});
+
+const TO_EMAIL = 'recipient_email@example.com';
+
+// Function to get the latest video ID from a YouTube channel
+async function getLatestVideoId(channelId) {
+    try {
+        const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+            params: {
+                key: API_KEY,
+                channelId: channelId,
+                part: 'snippet,id',
+                order: 'date',
+                maxResults: 1
+            }
+        });
+
+        const items = response.data.items;
+        if (items && items.length > 0) {
+            return items[0].id.videoId;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error(`Error fetching latest video for channel ${channelId}:`, error);
+        return null;
+    }
+}
+
+// Function to send an email notification
+function sendEmail(subject, body) {
+    const mailOptions = {
+        from: 'your_email@gmail.com',
+        to: TO_EMAIL,
+        subject: subject,
+        text: body
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.error('Error sending email:', error);
+        } else {
+            console.log('Email sent:', info.response);
+        }
+    });
+}
+
+// Main function to monitor channels
+async function monitorChannels() {
+    const latestVideos = {};
+
+    // Initialize the latest video IDs
+    for (const channelId of CHANNEL_IDS) {
+        latestVideos[channelId] = await getLatestVideoId(channelId);
+    }
+
+    // Check periodically for new videos
+    setInterval(async () => {
+        for (const channelId of CHANNEL_IDS) {
+            const videoId = await getLatestVideoId(channelId);
+
+            if (videoId && videoId !== latestVideos[channelId]) {
+                latestVideos[channelId] = videoId;
+                const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+                sendEmail('New YouTube Video Notification', `New video posted by channel ${channelId}: ${videoUrl}`);
+                console.log(`Notification sent for channel ${channelId}`);
+            }
+        }
+    }, 60000); // Check every 60 seconds
+}
+
+monitorChannels();
