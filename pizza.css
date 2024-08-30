@@ -1,0 +1,52 @@
+.pizzabase{
+    width: 90vh;
+    height: 90vh;
+    background-color: #FEC94F;
+    border-radius: 50%;
+    margin: auto;
+    display: flex;
+}
+.crustborder{
+    width: 80vh;
+    height: 80vh;
+    background-color: #DB9200;
+    border-radius: 50%;
+    align-items: center;
+    justify-items: center;
+    margin: auto;
+    display: flex;
+}
+
+.crust{
+    width: 74vh;
+    height: 74vh;
+    background-color: #F1AB1F;
+    border-radius: 50%;
+    align-items: center;
+    justify-items: center;
+    margin: auto;
+}
+
+.pepperoni{
+    width: 12vh;
+    height: 12vh;
+    border: 1.5vh solid #8A1300;
+    background-color: #CA4B37;
+    border-radius: 50%;
+    align-items: center;
+    justify-items: center;
+    margin: auto;
+}
+.pepperoniContainer1{
+    margin-top: 6vh;
+    display: flex;
+    align-items: center;
+    /* justify-content:; */
+    /* background-color: blue; */
+}
+.pepperoniContainer2{
+    display: flex;
+    width: 80%;
+    margin: auto;
+    margin-top: 14vh;
+}
